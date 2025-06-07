@@ -1,36 +1,27 @@
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 public class Computador {
-    private List<Navio> navios;
+    private Set<Integer> posicoesNavios;
 
     public Computador() {
-        navios = new ArrayList<>();
-        navios.add(new Navio(3));
-        navios.add(new Navio(2));
+        this.posicoesNavios = new HashSet<>();
+        posicoesNavios.add(0);
+        posicoesNavios.add(2);
     }
 
-    public void sofrerAtaque() {
-        for (Navio navio : navios) {
-            if (!navio.estaAfundado()) {
-                navio.receberDano();
-                if (navio.estaAfundado()) {
-                    System.out.println("Você afundou um navio inimigo!");
-                } else {
-                    System.out.println("Você acertou um navio inimigo!");
-                }
-                return;
-            }
+    public boolean sofrerAtaqueNaPosicao(int posicao) {
+        if (posicoesNavios.contains(posicao)) {
+            posicoesNavios.remove(posicao);
+            System.out.println("Você acertou o navio inimigo na posição " + posicao + "!");
+            return true;
+        } else {
+            System.out.println("Você errou o ataque na posição " + posicao + ".");
+            return false;
         }
-        System.out.println("Todos os navios inimigos já estão afundados.");
     }
 
     public boolean todosNaviosAfundados() {
-        for (Navio navio : navios) {
-            if (!navio.estaAfundado()) {
-                return false;
-            }
-        }
-        return true;
+        return posicoesNavios.isEmpty();
     }
 }

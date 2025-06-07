@@ -1,38 +1,34 @@
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 public class Jogador {
     private String nome;
-    private List<Navio> navios;
+    private Set<Integer> posicoesNavios;
 
     public Jogador(String nome) {
         this.nome = nome;
-        this.navios = new ArrayList<>();
-        navios.add(new Navio(3));
-        navios.add(new Navio(2));
+        this.posicoesNavios = new HashSet<>();
+        posicoesNavios.add(1);
+        posicoesNavios.add(3);
+    }
+
+    public boolean sofrerAtaqueNaPosicao(int posicao) {
+        System.out.println(nome + " foi atacado na posição " + posicao + "!");
+        if (posicoesNavios.contains(posicao)) {
+            posicoesNavios.remove(posicao);
+            System.out.println("Navio atingido!");
+            return true;
+        } else {
+            System.out.println("Mas não sofreu dano.");
+            return false;
+        }
+    }
+
+    public boolean todosNaviosAfundados() {
+        return posicoesNavios.isEmpty();
     }
 
     public String getNome() {
         return nome;
-    }
-
-    public void sofrerAtaque() {
-        for (Navio navio : navios) {
-            if (!navio.estaAfundado()) {
-                navio.receberDano();
-                System.out.println(nome + " foi atacado! Navio sofreu dano.");
-                return;
-            }
-        }
-        System.out.println(nome + " não tem navios restantes para sofrer dano.");
-    }
-
-    public boolean todosNaviosAfundados() {
-        for (Navio navio : navios) {
-            if (!navio.estaAfundado()) {
-                return false;
-            }
-        }
-        return true;
     }
 }
